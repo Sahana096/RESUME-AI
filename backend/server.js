@@ -318,4 +318,12 @@ app.post("/analyze", upload.fields([{ name: "resumes" }, { name: "jdFile", maxCo
   }
 });
 
-app.listen(5000, () => console.log("Backend running on http://localhost:5000"));
+app.listen(5000, () => {
+  console.log("Backend running on http://localhost:5000");
+  // Keep-alive ping every 14 minutes to prevent Render free tier sleep
+  setInterval(() => {
+    fetch("https://resume-ai-t1g7.onrender.com/health").catch(() => {});
+  }, 14 * 60 * 1000);
+});
+
+app.get("/health", (req, res) => res.json({ status: "ok" }));
