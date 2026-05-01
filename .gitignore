@@ -1,0 +1,7 @@
+node_modules/
+uploads/
+backend/uploads/
+backend/error.log
+backend/startup_error.log
+backend/final_startup.log
+*.log
