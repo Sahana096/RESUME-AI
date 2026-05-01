@@ -259,7 +259,7 @@ async function runAnalysis() {
   });
 
   try {
-    const res = await fetch("http://localhost:5000/analyze", {
+    const res = await fetch("https://resume-ai-t1g7.onrender.com/analyze", {
       method: "POST",
       body: formData,
     });

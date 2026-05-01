@@ -595,7 +595,7 @@
                                 headers: { Authorization: 'Bearer ' + response.access_token }
                             }).then(r => r.json());
 
-                            const loginRes = await fetch('http://localhost:5000/api/auth/social-login', {
+                            const loginRes = await fetch('https://resume-ai-t1g7.onrender.com/api/auth/social-login', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ name: info.name, email: info.email, role, provider: 'google' })
@@ -713,7 +713,7 @@
                 });
                 const info = await resp.json();
                 const role = localStorage.getItem('pendingSocialRole') || 'user';
-                const loginRes = await fetch('http://localhost:5000/api/auth/social-login', {
+                const loginRes = await fetch('https://resume-ai-t1g7.onrender.com/api/auth/social-login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name: info.name, email: info.email, role, provider: 'google' })

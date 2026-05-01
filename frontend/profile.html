@@ -617,7 +617,7 @@
                 const user = JSON.parse(localStorage.getItem('user') || '{}');
                 formData.append('userId', user.email || 'anonymous');
 
-                const response = await fetch('http://localhost:5000/analyze', { method: 'POST', body: formData });
+                const response = await fetch('https://resume-ai-t1g7.onrender.com/analyze', { method: 'POST', body: formData });
                 const results = await response.json();
                 const r = results[0];
 
