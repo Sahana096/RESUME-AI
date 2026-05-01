@@ -203,24 +203,23 @@ app.post("/analyze", upload.fields([{ name: "resumes" }, { name: "jdFile", maxCo
       return res.status(400).json({ error: "No resumes uploaded." });
     }
 
-    // Handle JD File if provided and no text JD
-    if (jdFileArray && jdFileArray.length > 0 && (!jobDescription || jobDescription.trim().length < 10)) {
+    // Handle JD File if provided
+    if (jdFileArray && jdFileArray.length > 0) {
       const jdFile = jdFileArray[0];
       try {
         if (jdFile.mimetype === "application/pdf") {
           const dataBuffer = fs.readFileSync(jdFile.path);
           const pdfData = await pdf(dataBuffer);
-          jobDescription = pdfData.text;
+          if (pdfData.text && pdfData.text.trim().length > 10) jobDescription = pdfData.text;
         } else if (jdFile.mimetype === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || jdFile.originalname.endsWith(".docx")) {
           const result = await mammoth.extractRawText({ path: jdFile.path });
-          jobDescription = result.value;
+          if (result.value && result.value.trim().length > 10) jobDescription = result.value;
         } else {
           jobDescription = fs.readFileSync(jdFile.path, "utf8");
         }
       } catch (err) {
         console.error("Error parsing JD file:", err.message);
       } finally {
-        // ALWAYS cleanup JD file
         if (fs.existsSync(jdFile.path)) {
           try { fs.unlinkSync(jdFile.path); } catch(e) {}
         }
